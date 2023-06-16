@@ -1,0 +1,15 @@
+.ticket-boxes-columns-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    .ticket-boxes-row-content{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+    .ticket-box-content{
+        margin:5px;
+    }
+}

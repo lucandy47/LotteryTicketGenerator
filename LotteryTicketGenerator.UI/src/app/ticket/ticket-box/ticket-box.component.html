@@ -1,0 +1,7 @@
+<div class="box">
+    <div class="numbers-row" *ngFor="let row of numbersRows">
+        <div class="number-box" *ngFor="let numberBox of row.numberBoxes" [ngClass]="numberBox.isDrawn ? 'drawn-number' : ''">
+            <span>{{numberBox.value}}</span>
+        </div>
+    </div>
+</div>
