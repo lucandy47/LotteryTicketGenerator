@@ -13,6 +13,7 @@ export class TicketBoxComponent implements OnInit, OnChanges{
 
   @Input("ticketBox") ticketBox!: TicketBox;
   @Input("performNewTicketAction") performNewTicketAction!: boolean;
+  
   @Output('onTicketBoxGenerate') onTicketBoxGenerate = new EventEmitter<TicketBox>();
 
   constructor(){
@@ -75,6 +76,7 @@ export class TicketBoxComponent implements OnInit, OnChanges{
     }
   
     this.ticketBox.numberRows = this.numbersRows;
+    this.getTicketBoxChosenNumbers();
     this.onTicketBoxGenerate.emit(this.ticketBox);
   }
 
@@ -82,6 +84,20 @@ export class TicketBoxComponent implements OnInit, OnChanges{
     this.numberBoxes.forEach((nb: NumberBox)=>{
       nb.isDrawn = false;
     });
+  }
+
+  private getTicketBoxChosenNumbers(): void{
+    let selectedValues: number[] = [];
+  
+    for(let row of this.ticketBox.numberRows){
+      row.numberBoxes.forEach((nb:NumberBox)=> {
+        if(nb.isDrawn){
+          selectedValues.push(nb.value);
+        }
+      });
+    }
+    this.ticketBox.drawnNumbers = selectedValues.join(',');
+    console.log(this.ticketBox);
   }
 
 }

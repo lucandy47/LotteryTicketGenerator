@@ -45,7 +45,8 @@ export class TicketComponent implements OnInit{
     for(let index = 0; index < totalTicketBoxesNumber; index++){
       let ticketBox: TicketBox = {
         id: index,
-        numberRows: []
+        numberRows: [],
+        drawnNumbers: ''
       }
       this.ticket.ticketBoxes.push(ticketBox);
     }
