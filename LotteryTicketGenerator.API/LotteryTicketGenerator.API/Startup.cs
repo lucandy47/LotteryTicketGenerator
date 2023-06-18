@@ -42,7 +42,7 @@ namespace LotteryTicketGenerator.API
                 app.UseDeveloperExceptionPage();
             }
 
-            var cors = "http://localhost:4200/";
+            var cors = "http://localhost:4200";
 
             app.UseHttpsRedirection();
 

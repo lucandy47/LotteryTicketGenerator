@@ -13,7 +13,7 @@ export class TicketBoxComponent implements OnInit, OnChanges{
 
   @Input("ticketBox") ticketBox!: TicketBox;
   @Input("performNewTicketAction") performNewTicketAction!: boolean;
-  
+
   @Output('onTicketBoxGenerate') onTicketBoxGenerate = new EventEmitter<TicketBox>();
 
   constructor(){
@@ -36,7 +36,7 @@ export class TicketBoxComponent implements OnInit, OnChanges{
   public renderDefaultTicketBox(): void{
     for(let index = 0; index < this.rowsCount; index++){
       let startingRowNumber: number = index*this.rowsCount + 1;
-      let numbersRow: NumbersRow= {
+      let numbersRow: NumbersRow = {
         id: index,
         numberBoxes: this.addNumberBoxesToRow(startingRowNumber)
       }
