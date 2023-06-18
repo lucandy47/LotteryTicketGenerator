@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TicketHelper } from 'src/app/helpers/ticket-helper';
 import { Ticket } from 'src/app/services/api/dto/ticket';
 import { TicketBox } from 'src/app/services/api/dto/ticket-box';
@@ -15,44 +16,31 @@ export class TicketComponent implements OnInit{
 
   }
 
-  private splitTicketBoxes(): void{
-    this.ticketBoxRows = [];
-    let currentTickedBoxRow: TicketBoxRow = {
-      ticketBoxes: []
-    }
-    for(let i = 0; i < this.ticket.ticketBoxes.length; i++){
-      let tb = this.ticket.ticketBoxes[i];
-      currentTickedBoxRow.ticketBoxes.push(tb);
-      if(currentTickedBoxRow.ticketBoxes.length === TicketHelper.MaxBoxesPerRow || i === this.ticket.ticketBoxes.length - 1){
-        this.ticketBoxRows.push(currentTickedBoxRow);
-        currentTickedBoxRow = {
-          ticketBoxes: []
-        };
-      }
-    }
-  }
-
   public ticket: Ticket = {
     id: 0,
     ticketBoxes: []
   };
-
   public performNewTicketAction: boolean = true;
   public ticketBoxRows: TicketBoxRow[] = [];
+  public ticketForm!: FormGroup;
 
   ngOnInit(): void {
-    this.generateNewTicketBoxes();
+    this.ticketForm = new FormGroup({
+      ticketBoxesCount: new FormControl(
+          1,
+          [Validators.required]
+        ),
+      isSuperzahl: new FormControl(false)
+    });
   }
 
   public generateNewTicket(): void{
-    this.generateNewTicketBoxes();
-    this.performNewTicketAction = !this.performNewTicketAction;
-  }
+    const formData = this.ticketForm.getRawValue();
 
-  private generateNewTicketBoxes(): void{
+    this.performNewTicketAction = !this.performNewTicketAction;
     this.ticket.id = 0;
     this.ticket.ticketBoxes = [];
-    let totalTicketBoxesNumber: number = Math.floor(Math.random() * 16) + 1;
+    let totalTicketBoxesNumber: number = formData.ticketBoxesCount;
 
     for(let index = 0; index < totalTicketBoxesNumber; index++){
       let ticketBox: TicketBox = {
@@ -70,6 +58,23 @@ export class TicketComponent implements OnInit{
   
     if (foundTicketBox) {
       foundTicketBox.numberRows = ticketBox.numberRows;
+    }
+  }
+
+  private splitTicketBoxes(): void{
+    this.ticketBoxRows = [];
+    let currentTickedBoxRow: TicketBoxRow = {
+      ticketBoxes: []
+    }
+    for(let i = 0; i < this.ticket.ticketBoxes.length; i++){
+      let tb = this.ticket.ticketBoxes[i];
+      currentTickedBoxRow.ticketBoxes.push(tb);
+      if(currentTickedBoxRow.ticketBoxes.length === TicketHelper.MaxBoxesPerRow || i === this.ticket.ticketBoxes.length - 1){
+        this.ticketBoxRows.push(currentTickedBoxRow);
+        currentTickedBoxRow = {
+          ticketBoxes: []
+        };
+      }
     }
   }
 

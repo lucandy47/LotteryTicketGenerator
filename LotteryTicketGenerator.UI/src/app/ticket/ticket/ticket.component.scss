@@ -1,15 +1,39 @@
-.ticket-boxes-columns-content{
+.content{
     display: flex;
-    flex-direction: column;
-    justify-content: start;
-    align-items: start;
-    .ticket-boxes-row-content{
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
+    flex-direction: row;
+    .form-area{
+        width:10%;
+        display:flex;
+        flex-direction: column;
         align-items: center;
+        justify-content: start;
+        margin:10px;
     }
-    .ticket-box-content{
-        margin:5px;
+    .form-content{
+        display: flex;
+        align-items: start;
+        justify-content: start;
+        flex-direction: column;
     }
+    .ticket-boxes-columns-content{
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: start;
+        .ticket-boxes-row-content{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+        .ticket-box-content{
+            margin:5px;
+        }
+    }
+}
+.content-empty{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    height:80vh;
 }
