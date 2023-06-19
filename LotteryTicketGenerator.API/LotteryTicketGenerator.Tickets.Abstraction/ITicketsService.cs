@@ -1,4 +1,5 @@
-﻿using LotteryTicketGenerator.Tickets.Abstraction.DTO;
+﻿using LotteryTicketGenerator.Domains.Entities;
+using LotteryTicketGenerator.Tickets.Abstraction.DTO;
 
 namespace LotteryTicketGenerator.Tickets.Abstraction
 {
@@ -6,5 +7,6 @@ namespace LotteryTicketGenerator.Tickets.Abstraction
     {
         Task<int> AddTicket(TicketDTO ticket);
         Task<IEnumerable<TicketDTO>> GetTickets();
+        Task<TicketDTO> GetTicketById(int ticketId);
     }
 }

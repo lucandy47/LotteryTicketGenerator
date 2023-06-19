@@ -20,4 +20,8 @@ export class TicketService {
   public getTickets(): Observable<Ticket[]>{
     return this.httpClient.get<Ticket[]>(this.apiUrl);
   }
+
+  public getTicketById(ticketId: number): Observable<Ticket>{
+    return this.httpClient.get<Ticket>(`${this.apiUrl}/${ticketId}`)
+  }
 }

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { TicketHelper } from 'src/app/helpers/ticket-helper';
 import { NumberBox } from 'src/app/services/api/dto/number-box';
 import { NumbersRow } from 'src/app/services/api/dto/numbers-row';
+import { Ticket } from 'src/app/services/api/dto/ticket';
 import { TicketBox } from 'src/app/services/api/dto/ticket-box';
 
 @Component({
@@ -13,6 +14,7 @@ export class TicketBoxComponent implements OnInit, OnChanges{
 
   @Input("ticketBox") ticketBox!: TicketBox;
   @Input("performNewTicketAction") performNewTicketAction!: boolean;
+  @Input("ticket") ticket!: Ticket;
 
   @Output('onTicketBoxGenerate') onTicketBoxGenerate = new EventEmitter<TicketBox>();
 
@@ -33,23 +35,23 @@ export class TicketBoxComponent implements OnInit, OnChanges{
     }
   }
 
-  public renderDefaultTicketBox(): void{
+  private renderDefaultTicketBox(drawnNumbers: number[]): void{
     for(let index = 0; index < this.rowsCount; index++){
       let startingRowNumber: number = index*this.rowsCount + 1;
       let numbersRow: NumbersRow = {
         id: index,
-        numberBoxes: this.addNumberBoxesToRow(startingRowNumber)
+        numberBoxes: this.addNumberBoxesToRow(startingRowNumber,drawnNumbers)
       }
       this.numbersRows.push(numbersRow);
     }
   }
 
-  private addNumberBoxesToRow(startingIndex: number): NumberBox[]{
+  private addNumberBoxesToRow(startingIndex: number, drawnNumbers: number[]): NumberBox[]{
     let numberBoxes: NumberBox[] = [];
     for(let index = startingIndex; index < startingIndex + this.rowsCount; index++){
       let numberBox: NumberBox = {
         value: index,
-        isDrawn: false,
+        isDrawn: drawnNumbers.includes(index) ? true : false,
         id: 0
       }
       numberBoxes.push(numberBox);
@@ -59,11 +61,25 @@ export class TicketBoxComponent implements OnInit, OnChanges{
   }
 
   public generateTicket(): void{
+    if(this.ticket.id == 0){
+      this.generateRandomTicket();
+    }else{
+      this.generateDrawnTicket();
+    }
+    
+    this.onTicketBoxGenerate.emit(this.ticketBox);
+  }
+
+  private generateDrawnTicket(): void{
+    const drawnValues: number[] = this.ticketBox.drawnNumbers.split(',').map(Number);
+    this.renderDefaultTicketBox(drawnValues);
+  }
+
+  private generateRandomTicket(): void{
     const maxNumbersPicked: number = TicketHelper.MaxNumbersPicked;
     let drawnNumbersCount: number = 0;
-    this.renderDefaultTicketBox();
+    this.renderDefaultTicketBox([]);
     this.resetTicketBox();
-
     while(drawnNumbersCount !== maxNumbersPicked){
       const randomNumber: number = Math.floor(Math.random() * 49) + 1;
       let numberBox = this.numberBoxes.find(nb => nb.value == randomNumber);
@@ -77,7 +93,6 @@ export class TicketBoxComponent implements OnInit, OnChanges{
   
     this.ticketBox.numberRows = this.numbersRows;
     this.getTicketBoxChosenNumbers();
-    this.onTicketBoxGenerate.emit(this.ticketBox);
   }
 
   private resetTicketBox(): void{
@@ -97,7 +112,6 @@ export class TicketBoxComponent implements OnInit, OnChanges{
       });
     }
     this.ticketBox.drawnNumbers = selectedValues.join(',');
-    console.log(this.ticketBox);
   }
 
 }

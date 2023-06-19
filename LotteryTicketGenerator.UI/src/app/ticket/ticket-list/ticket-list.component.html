@@ -1,8 +1,10 @@
 <div *ngIf="tickets$ | async as tickets">
     <div *ngFor="let ticket of tickets">
-        <div *ngFor="let ticketBox of ticket.ticketBoxes">
-            {{ticket.id}} - {{ticketBox.drawnNumbers}}
-        </div>   
+        <a class="ticket-url" (click)="getTicketById(ticket.id)">
+            <div *ngFor="let ticketBox of ticket.ticketBoxes">
+                {{ticket.id}} - {{ticketBox.drawnNumbers}}
+            </div>   
+        </a>
     </div>
 </div>
 <button (click)="goToNewTicketGenerator()"> Create new ticket</button>

@@ -29,6 +29,17 @@ namespace LotteryTicketGenerator.Tickets.Repository
             }
         }
 
+        public async Task<Ticket> GetTicketById(int ticketId)
+        {
+            var ticket = await _dbContext.Tickets
+                .Include(t => t.TicketBoxes)
+                .FirstOrDefaultAsync(t => t.Id == ticketId);
+
+            if(ticket == null) throw new Exception($"There is no ticket with id: {ticketId}");
+
+            return ticket;
+        }
+
         public async Task<IEnumerable<Ticket>> GetTickets()
         {
             var tickets = await _dbContext.Tickets

@@ -30,4 +30,8 @@ export class TicketListComponent implements OnInit{
     this.tickets$ = this._ticketService.getTickets();
   }
 
+  public getTicketById(ticketId: number): void{
+    this._router.navigate([`view/${ticketId}`]);
+  }
+
 }

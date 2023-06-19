@@ -36,6 +36,15 @@ namespace LotteryTicketGenerator.Tickets
 
         }
 
+        public async Task<TicketDTO> GetTicketById(int ticketId)
+        {
+            var ticketEntity = await _ticketsRepository.GetTicketById(ticketId);
+
+            var ticket = _mapper.Map<TicketDTO>(ticketEntity);
+
+            return ticket;
+        }
+
         public async Task<IEnumerable<TicketDTO>> GetTickets()
         {
             var ticketsEntities = await _ticketsRepository.GetTickets();

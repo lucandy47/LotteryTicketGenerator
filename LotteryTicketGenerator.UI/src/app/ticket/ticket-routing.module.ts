@@ -12,6 +12,10 @@ const routes: Routes = [
   {
     path:'new',
     component: TicketComponent
+  },
+  {
+    path:'view/:id',
+    component: TicketComponent
   }
 ];
 

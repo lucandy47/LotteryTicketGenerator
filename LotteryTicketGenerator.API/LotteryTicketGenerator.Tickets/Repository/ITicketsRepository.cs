@@ -6,6 +6,7 @@ namespace LotteryTicketGenerator.Tickets.Repository
     {
         Task<int> AddTicket(Ticket ticket);
         Task<IEnumerable<Ticket>> GetTickets();
+        Task<Ticket> GetTicketById(int ticketId);
 
     }
 }

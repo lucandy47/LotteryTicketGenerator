@@ -28,6 +28,21 @@ namespace LotteryTicketGenerator.API.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("{ticketId:int}")]
+        public async Task<IActionResult> GetTicketById([FromRoute] int ticketId)
+        {
+            try
+            {
+                var ticket = await _ticketsService.GetTicketById(ticketId);
+                return Ok(ticket);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddTicket([FromBody] TicketDTO ticket)
         {
