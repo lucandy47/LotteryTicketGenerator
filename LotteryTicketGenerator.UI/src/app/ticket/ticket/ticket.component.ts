@@ -24,12 +24,14 @@ export class TicketComponent implements OnInit, AfterViewChecked, OnDestroy{
   private routeParamsSubscription: Subscription | undefined;
   public ticket: Ticket = {
     id: 0,
+    superZahl: - 1,
     ticketBoxes: []
   };
   public performNewTicketAction: boolean = true;
   public ticketBoxRows: TicketBoxRow[] = [];
   public ticketForm!: FormGroup;
   public ticketAlreadySent: boolean = false;
+  public isPersistingData: boolean = false;
 
   public ticket$!: Observable<Ticket>;
 
@@ -39,7 +41,7 @@ export class TicketComponent implements OnInit, AfterViewChecked, OnDestroy{
           1,
           [Validators.required]
         ),
-      isSuperzahl: new FormControl(false)
+      withSuperzahl: new FormControl(false)
     });
 
     this.routeParamsSubscription = this.route.params.subscribe((params) => {
@@ -92,6 +94,7 @@ export class TicketComponent implements OnInit, AfterViewChecked, OnDestroy{
         next: (ticketId: number) => {
           console.log(ticketId);
           this.ticketAlreadySent = true;
+          this.isPersistingData = false;
         },
         error: (error: any) => {
           console.log(error.error);
@@ -104,10 +107,14 @@ export class TicketComponent implements OnInit, AfterViewChecked, OnDestroy{
   public generateNewTicket(): void{
     const formData = this.ticketForm.getRawValue();
     this.ticketAlreadySent = false;
+    this.isPersistingData = true;
 
     this.performNewTicketAction = !this.performNewTicketAction;
-    this.ticket.id = 0;
-    this.ticket.ticketBoxes = [];
+    this.ticket = {
+      id: 0,
+      superZahl: formData.withSuperzahl ? Math.floor(Math.random() * 10) : null,
+      ticketBoxes: []
+    }
     let totalTicketBoxesNumber: number = formData.ticketBoxesCount;
 
     for(let index = 0; index < totalTicketBoxesNumber; index++){

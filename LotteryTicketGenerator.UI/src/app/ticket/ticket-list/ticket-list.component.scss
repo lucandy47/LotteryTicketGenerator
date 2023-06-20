@@ -1,7 +1,38 @@
-.ticket-url{
-    cursor:pointer;
-}
-
-.ticket-url:hover{
-    opacity: 0.5;
+.content{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    .tickets-content{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-direction: column;
+        margin-top:10px;
+        .ticket-area{
+            border: 2px solid black;
+            width:100%;
+            margin-bottom: 5px;
+            cursor:pointer;
+            .drawnNumbers-element{
+                margin:20px;   
+                .drawnNumbers-content{
+                    margin:5px;
+                    padding:5px;
+                    border: 2px solid red;
+                }
+        
+                .superzahl-content{
+                    margin:5px;
+                    padding:5px;
+                    border: 2px solid blue;
+                }
+            }
+        }
+        .ticket-area:hover{
+            opacity: 0.5;
+        }
+    }
+   
 }

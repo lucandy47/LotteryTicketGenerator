@@ -1,21 +1,25 @@
+<a class="ticket-list-btn" (click)="goToTicketsList()">
+    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+    Tickets List
+</a>
 <div [ngClass]="ticketBoxRows.length != 0 ? 'content' : 'content-empty'">
     <div *ngIf="ticket.id == 0" class="menu-area">
         <form [formGroup]="ticketForm" (ngSubmit)="generateNewTicket()" class="form-content">
             <div class="grid-area">
-                <label for="ticketBoxesCount">Number of Ticket Boxes:</label>
-                <div>
+                <label class="required-label" for="ticketBoxesCount">Number of Ticket Boxes:</label>
+                <div class="required-input-area">
                     <input type="number" id="ticketBoxesCount" formControlName="ticketBoxesCount" style="width:70%;">
-                    <div *ngIf="ticketForm.controls['ticketBoxesCount'].invalid && ticketForm.controls['ticketBoxesCount'].touched" style="margin-bottom:5px;">
-                        <span style="color:red; font-size:0.8rem;">Please enter a number of ticket boxes.</span>
-                    </div>
-                    <div *ngIf="ticketForm.controls['ticketBoxesCount'].value <= 0">
-                        <span style="color:red; font-size:0.8rem;">Number of boxes cannot be 0 or less.</span>
-                    </div>
+                    <ng-container *ngIf="ticketForm.controls['ticketBoxesCount'].invalid && ticketForm.controls['ticketBoxesCount'].touched" style="margin-bottom:5px;">
+                        <small class="p-error">Please enter a number of ticket boxes.</small>
+                    </ng-container>
+                    <ng-container *ngIf="ticketForm.controls['ticketBoxesCount'].value <= 0 && !ticketForm.controls['ticketBoxesCount'].invalid">
+                        <small class="p-error">Number of boxes cannot be 0 or less.</small>
+                    </ng-container>
                 </div>
             </div>
-            <div class="grid-area">
-                <label for="isSuperzahl">Include Superzahl:</label>
-                <input type="checkbox" id="isSuperzahl" formControlName="isSuperzahl">
+            <div class="grid-area" style="margin-bottom:5px;">
+                <label for="withSuperzahl">Include Superzahl:</label>
+                <input type="checkbox" id="withSuperzahl" formControlName="withSuperzahl">
             </div>
             
             <button type="submit" [disabled]="ticketForm.invalid || ticketForm.controls['ticketBoxesCount'].value <= 0">Draw tickets</button>
@@ -26,18 +30,20 @@
             Lotto ticket #{{ticket.id}}
         </h4>
         <p>
-            Contains <b>{{ticket.ticketBoxes.length}}</b> tickets.
+            Contains <b>{{ticket.ticketBoxes.length}}</b> boxes.
         </p>
         <ol class="ticket-boxes-list">
             <li *ngFor="let ticketBox of ticket.ticketBoxes">
                 {{ticketBox.drawnNumbers}}
             </li>
         </ol>
-        <button (click)="goToTicketsList()">See all drawn tickets</button>
+        <p *ngIf="ticket.superZahl != null" class="superzahl-content">
+            SuperZahl: <b>{{ticket.superZahl}}</b>
+        </p>
     </div>
     <div class="ticket-boxes-columns-content">
-        <div class="ticket-boxes-row-content" *ngFor="let row of ticketBoxRows">
-            <div *ngFor="let ticketBox of row.ticketBoxes" class="ticket-box-content">
+        <div class="ticket-boxes-row-content" >
+            <div *ngFor="let ticketBox of ticket.ticketBoxes" class="ticket-box-content">
                 <app-ticket-box [ticket]="ticket" [ticketBox]="ticketBox" [performNewTicketAction]="performNewTicketAction" (onTicketBoxGenerate)="onNewTicketBoxGenerate($event)"></app-ticket-box>
             </div>
         </div>

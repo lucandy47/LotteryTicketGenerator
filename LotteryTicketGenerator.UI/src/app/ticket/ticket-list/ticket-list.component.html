@@ -1,10 +1,22 @@
-<div *ngIf="tickets$ | async as tickets">
-    <div *ngFor="let ticket of tickets">
-        <a class="ticket-url" (click)="getTicketById(ticket.id)">
-            <div *ngFor="let ticketBox of ticket.ticketBoxes">
-                {{ticket.id}} - {{ticketBox.drawnNumbers}}
-            </div>   
-        </a>
+<div class="content">
+    <div style="margin:20px;" *ngIf="(tickets$ | async)?.length == 0 || (tickets$ | async) == undefined">
+        No tickets generated yet.
+    </div>
+    <button (click)="goToNewTicketGenerator()">Generate new ticket</button>
+    <div class="tickets-content" *ngIf="tickets$ | async as tickets">
+        <div class="ticket-area ticket-url" *ngFor="let ticket of tickets" (click)="getTicketById(ticket.id)">
+            <p style="margin:0px 5px !important;">Ticket No. #{{ticket.id}}</p>
+            <p *ngIf="ticket.superZahl != null" style="margin:0px 5px !important;"> SuperZahl: <b>{{ticket.superZahl}}</b></p>
+            <ol style="padding-inline-start: 20px;">
+                <li class="drawnNumbers-element" *ngFor="let ticketBox of ticket.ticketBoxes">
+                    <span class="drawnNumbers-content" *ngFor="let drawnNumber of ticketBox.drawnNumbers.split(',')">
+                        {{drawnNumber}}
+                    </span>
+                    <span *ngIf="ticket.superZahl != null" class="superzahl-content">
+                        {{ticket.superZahl}}
+                    </span>
+                </li>
+            </ol>
+        </div>
     </div>
 </div>
-<button (click)="goToNewTicketGenerator()"> Create new ticket</button>

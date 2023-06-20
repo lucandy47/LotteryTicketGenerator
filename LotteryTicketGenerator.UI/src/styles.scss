@@ -1,5 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@fortawesome/fontawesome-free/css/all.min.css";
+
 body {
     font-family: cursive;
     font-size: 0.9rem;
+}
+
+.required-label {
+    &::before {
+        content: "*";
+        color: red;
+        margin-right: 3px;
+    }
 }

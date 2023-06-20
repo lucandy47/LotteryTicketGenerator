@@ -3,6 +3,7 @@
     public class Ticket
     {
         public int Id { get; set; }
+        public int? SuperZahl { get; set; }
         public virtual ICollection<TicketBox> TicketBoxes { get; set; }
 
         public Ticket()
