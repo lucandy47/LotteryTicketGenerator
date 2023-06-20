@@ -41,7 +41,7 @@
             SuperZahl: <b>{{ticket.superZahl}}</b>
         </p>
     </div>
-    <div class="ticket-boxes-columns-content">
+    <div *ngIf="ticket.ticketBoxes.length != 0" class="ticket-boxes-columns-content">
         <div class="ticket-boxes-row-content" >
             <div *ngFor="let ticketBox of ticket.ticketBoxes" class="ticket-box-content">
                 <app-ticket-box [ticket]="ticket" [ticketBox]="ticketBox" [performNewTicketAction]="performNewTicketAction" (onTicketBoxGenerate)="onNewTicketBoxGenerate($event)"></app-ticket-box>

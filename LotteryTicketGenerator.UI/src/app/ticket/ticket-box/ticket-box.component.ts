@@ -1,3 +1,4 @@
+import { trigger, transition, animate, keyframes, style } from '@angular/animations';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { TicketHelper } from 'src/app/helpers/ticket-helper';
 import { NumberBox } from 'src/app/services/api/dto/number-box';
@@ -8,7 +9,25 @@ import { TicketBox } from 'src/app/services/api/dto/ticket-box';
 @Component({
   selector: 'app-ticket-box',
   templateUrl: './ticket-box.component.html',
-  styleUrls: ['./ticket-box.component.scss']
+  styleUrls: ['./ticket-box.component.scss'],
+  animations: [
+    trigger('fadeIn', [
+      transition(':enter', [
+        animate('2500ms', keyframes([
+          style({ opacity: 0, offset: 0 }),
+          style({ opacity: 1, offset: 1 }),
+        ])),
+      ]),
+    ]),
+    trigger('slideIn', [
+      transition(':enter', [
+        animate('1000ms', keyframes([
+          style({ transform: 'translateY(-100%)', offset: 0 }),
+          style({ transform: 'translateY(0)', offset: 1 }),
+        ])),
+      ]),
+    ]),
+  ],
 })
 export class TicketBoxComponent implements OnInit, OnChanges{
 

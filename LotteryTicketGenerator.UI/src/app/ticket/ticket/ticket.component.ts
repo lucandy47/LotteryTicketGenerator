@@ -28,8 +28,6 @@ export class TicketComponent implements OnInit, AfterViewChecked, OnDestroy{
   public performNewTicketAction: boolean = true;
   public ticketForm!: FormGroup;
   public ticketAlreadySent: boolean = false;
-  public isPersistingData: boolean = false;
-
   public ticket$!: Observable<Ticket>;
 
   ngOnInit(): void {
@@ -90,7 +88,6 @@ export class TicketComponent implements OnInit, AfterViewChecked, OnDestroy{
         next: (ticketId: number) => {
           console.log(ticketId);
           this.ticketAlreadySent = true;
-          this.isPersistingData = false;
         },
         error: (error: any) => {
           console.log(error.error);
@@ -103,7 +100,6 @@ export class TicketComponent implements OnInit, AfterViewChecked, OnDestroy{
   public generateNewTicket(): void{
     const formData = this.ticketForm.getRawValue();
     this.ticketAlreadySent = false;
-    this.isPersistingData = true;
 
     this.performNewTicketAction = !this.performNewTicketAction;
     this.ticket = {
@@ -130,8 +126,6 @@ export class TicketComponent implements OnInit, AfterViewChecked, OnDestroy{
       foundTicketBox.numberRows = ticketBox.numberRows;
     }
   }
-
-
 
   public goToTicketsList(): void{
     this._router.navigate(['']);
