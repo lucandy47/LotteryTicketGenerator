@@ -2,7 +2,7 @@
     <div style="margin:20px;" *ngIf="(tickets$ | async)?.length == 0 || (tickets$ | async) == undefined">
         No tickets generated yet.
     </div>
-    <button (click)="goToNewTicketGenerator()">Generate new ticket</button>
+    <button class="generate-btn" (click)="goToNewTicketGenerator()">Generate new ticket</button>
     <div class="tickets-content" *ngIf="tickets$ | async as tickets">
         <div class="ticket-area ticket-url" *ngFor="let ticket of tickets" (click)="getTicketById(ticket.id)">
             <p style="margin:0px 5px !important;">Ticket No. #{{ticket.id}}</p>

@@ -2,7 +2,7 @@
     <i class="fa fa-arrow-left" aria-hidden="true"></i>
     Tickets List
 </a>
-<div [ngClass]="ticketBoxRows.length != 0 ? 'content' : 'content-empty'">
+<div [ngClass]="ticket.ticketBoxes.length != 0 ? 'content' : 'content-empty'">
     <div *ngIf="ticket.id == 0" class="menu-area">
         <form [formGroup]="ticketForm" (ngSubmit)="generateNewTicket()" class="form-content">
             <div class="grid-area">
@@ -17,12 +17,12 @@
                     </ng-container>
                 </div>
             </div>
-            <div class="grid-area" style="margin-bottom:5px;">
+            <div class="grid-area">
                 <label for="withSuperzahl">Include Superzahl:</label>
                 <input type="checkbox" id="withSuperzahl" formControlName="withSuperzahl">
             </div>
             
-            <button type="submit" [disabled]="ticketForm.invalid || ticketForm.controls['ticketBoxesCount'].value <= 0">Draw tickets</button>
+            <button type="submit" class="generate-btn" [disabled]="ticketForm.invalid || ticketForm.controls['ticketBoxesCount'].value <= 0">Draw tickets</button>
         </form>
     </div>
     <div *ngIf="ticket.id != 0 " class="menu-area">

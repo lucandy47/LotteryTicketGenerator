@@ -1,10 +1,3 @@
-.ticket-list-btn{
-    cursor:pointer;
-    padding: 10px;
-}
-.ticket-list-btn:hover{
-    opacity: 0.6;
-}
 .content{
     display: flex;
     flex-direction: row;
@@ -16,6 +9,7 @@
         align-items: flex-start;
         justify-content: flex-start;
         margin:10px;
+        min-width:150px;
         .ticket-boxes-list{
             padding-left:20px;
             margin-top:0px;
@@ -58,7 +52,6 @@
             justify-content: flex-start;
             align-items: flex-start;
             flex-wrap: wrap;
-            margin-left:30px;
         }
         .ticket-box-content{
             margin:5px;
@@ -98,3 +91,12 @@
         }
     }
 }
+
+.ticket-list-btn{
+    cursor:pointer;
+    padding: 10px;
+}
+.ticket-list-btn:hover{
+    opacity: 0.6;
+}
+

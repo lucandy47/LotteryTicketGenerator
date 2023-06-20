@@ -1,12 +1,10 @@
-import { AfterContentChecked, AfterViewChecked, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription, take } from 'rxjs';
-import { TicketHelper } from 'src/app/helpers/ticket-helper';
 import { Ticket } from 'src/app/services/api/dto/ticket';
 import { TicketBox } from 'src/app/services/api/dto/ticket-box';
 import { TicketService } from 'src/app/services/api/ticket.service';
-import { TicketBoxRow } from 'src/app/services/ui/models/ticket-box-row';
 
 @Component({
   selector: 'app-ticket',
@@ -28,7 +26,6 @@ export class TicketComponent implements OnInit, AfterViewChecked, OnDestroy{
     ticketBoxes: []
   };
   public performNewTicketAction: boolean = true;
-  public ticketBoxRows: TicketBoxRow[] = [];
   public ticketForm!: FormGroup;
   public ticketAlreadySent: boolean = false;
   public isPersistingData: boolean = false;
@@ -85,7 +82,6 @@ export class TicketComponent implements OnInit, AfterViewChecked, OnDestroy{
         drawnNumbers: tb.drawnNumbers
       }
     }
-    this.splitTicketBoxes();
   }
 
   private addTicket(): void{
@@ -125,7 +121,6 @@ export class TicketComponent implements OnInit, AfterViewChecked, OnDestroy{
       }
       this.ticket.ticketBoxes.push(ticketBox);
     }
-    this.splitTicketBoxes();
   }
 
   public onNewTicketBoxGenerate(ticketBox: TicketBox): void {
@@ -136,22 +131,7 @@ export class TicketComponent implements OnInit, AfterViewChecked, OnDestroy{
     }
   }
 
-  private splitTicketBoxes(): void{
-    this.ticketBoxRows = [];
-    let currentTickedBoxRow: TicketBoxRow = {
-      ticketBoxes: []
-    }
-    for(let i = 0; i < this.ticket.ticketBoxes.length; i++){
-      let tb = this.ticket.ticketBoxes[i];
-      currentTickedBoxRow.ticketBoxes.push(tb);
-      if(currentTickedBoxRow.ticketBoxes.length === TicketHelper.MaxBoxesPerRow || i === this.ticket.ticketBoxes.length - 1){
-        this.ticketBoxRows.push(currentTickedBoxRow);
-        currentTickedBoxRow = {
-          ticketBoxes: []
-        };
-      }
-    }
-  }
+
 
   public goToTicketsList(): void{
     this._router.navigate(['']);
