@@ -54,6 +54,41 @@ export class TicketBoxComponent implements OnInit, OnChanges{
     }
   }
 
+  public generateTicket(): void{
+    if(this.ticket.id == 0){
+      this.generateRandomTicket();
+    }else{
+      this.drawExistingTicket();
+    }
+    
+    this.onTicketBoxGenerate.emit(this.ticketBox);
+  }
+
+  private drawExistingTicket(): void{
+    const drawnValues: number[] = this.ticketBox.drawnNumbers.split(',').map(Number);
+    this.renderDefaultTicketBox(drawnValues);
+  }
+
+  private generateRandomTicket(): void{
+    const maxNumbersPicked: number = TicketHelper.MaxNumbersPicked;
+    let drawnNumbersCount: number = 0;
+    this.renderDefaultTicketBox([]);
+    this.resetTicketBox();
+    while(drawnNumbersCount !== maxNumbersPicked){
+      const randomNumber: number = Math.floor(Math.random() * 49) + 1;
+      let numberBox = this.numberBoxes.find(nb => nb.value == randomNumber);
+
+      if(numberBox == undefined || numberBox.isDrawn) continue;
+
+      numberBox.isDrawn = true;
+      drawnNumbersCount = drawnNumbersCount + 1;
+      if(drawnNumbersCount == maxNumbersPicked) break;
+    }
+  
+    this.ticketBox.numberRows = this.numbersRows;
+    this.getTicketBoxChosenNumbers();
+  }
+
   private renderDefaultTicketBox(drawnNumbers: number[]): void{
     for(let index = 0; index < this.rowsCount; index++){
       let startingRowNumber: number = index*this.rowsCount + 1;
@@ -79,41 +114,6 @@ export class TicketBoxComponent implements OnInit, OnChanges{
     return numberBoxes;
   }
 
-  public generateTicket(): void{
-    if(this.ticket.id == 0){
-      this.generateRandomTicket();
-    }else{
-      this.generateDrawnTicket();
-    }
-    
-    this.onTicketBoxGenerate.emit(this.ticketBox);
-  }
-
-  private generateDrawnTicket(): void{
-    const drawnValues: number[] = this.ticketBox.drawnNumbers.split(',').map(Number);
-    this.renderDefaultTicketBox(drawnValues);
-  }
-
-  private generateRandomTicket(): void{
-    const maxNumbersPicked: number = TicketHelper.MaxNumbersPicked;
-    let drawnNumbersCount: number = 0;
-    this.renderDefaultTicketBox([]);
-    this.resetTicketBox();
-    while(drawnNumbersCount !== maxNumbersPicked){
-      const randomNumber: number = Math.floor(Math.random() * 49) + 1;
-      let numberBox = this.numberBoxes.find(nb => nb.value == randomNumber);
-
-      if(numberBox == undefined || numberBox.isDrawn) continue;
-
-      numberBox.isDrawn = true;
-      drawnNumbersCount = drawnNumbersCount + 1;
-      if(drawnNumbersCount == maxNumbersPicked) break;
-    }
-  
-    this.ticketBox.numberRows = this.numbersRows;
-    this.getTicketBoxChosenNumbers();
-  }
-
   private resetTicketBox(): void{
     this.numberBoxes.forEach((nb: NumberBox)=>{
       nb.isDrawn = false;
@@ -123,13 +123,12 @@ export class TicketBoxComponent implements OnInit, OnChanges{
   private getTicketBoxChosenNumbers(): void{
     let selectedValues: number[] = [];
   
-    for(let row of this.ticketBox.numberRows){
-      row.numberBoxes.forEach((nb:NumberBox)=> {
-        if(nb.isDrawn){
-          selectedValues.push(nb.value);
-        }
-      });
+    for(let numberBox of this.numberBoxes){
+      if(numberBox.isDrawn){
+        selectedValues.push(numberBox.value);
+      }
     }
+    
     this.ticketBox.drawnNumbers = selectedValues.join(',');
   }
 

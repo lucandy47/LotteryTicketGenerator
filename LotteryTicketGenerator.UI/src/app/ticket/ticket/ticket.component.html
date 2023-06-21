@@ -24,6 +24,17 @@
             
             <button type="submit" class="generate-btn" [disabled]="ticketForm.invalid || ticketForm.controls['ticketBoxesCount'].value <= 0">Draw tickets</button>
         </form>
+        <div>
+            <p>Drawn numbers per box:</p>
+            <ol class="ticket-boxes-list">
+                <li *ngFor="let ticketBoxDrawnNumbers of displayedDrawnNumbers">
+                    {{ticketBoxDrawnNumbers}}
+                </li>
+            </ol>
+            <p *ngIf="ticket.superZahl != null" class="superzahl-content">
+                SuperZahl: <b>{{ticket.superZahl}}</b>
+            </p>
+        </div>
     </div>
     <div *ngIf="ticket.id != 0 " class="menu-area">
         <h4 style="margin-bottom:0px;">
