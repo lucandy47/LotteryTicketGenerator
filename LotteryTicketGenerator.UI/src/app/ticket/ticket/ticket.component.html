@@ -24,7 +24,7 @@
             
             <button type="submit" class="generate-btn" [disabled]="ticketForm.invalid || ticketForm.controls['ticketBoxesCount'].value <= 0">Draw tickets</button>
         </form>
-        <div>
+        <div *ngIf="displayedDrawnNumbers.length > 0">
             <p>Drawn numbers per box:</p>
             <ol class="ticket-boxes-list">
                 <li *ngFor="let ticketBoxDrawnNumbers of displayedDrawnNumbers">
